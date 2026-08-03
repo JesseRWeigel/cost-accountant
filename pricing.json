@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "unit": "USD per 1,000,000 tokens",
+  "source": "Anthropic published API pricing, as documented in the claude-api reference bundled with Claude Code (skill version cached 2026-06-24). Cache multipliers from the prompt-caching documentation in the same bundle.",
+  "retrieved": "2026-08-03",
+  "note": "These are list prices for the first-party Claude API. They are not what every account pays: Bedrock and Vertex are priced separately, batch requests are half price, and Sonnet 5 has an introductory rate through 2026-08-31. Change the numbers here rather than editing code.",
+  "cache_multipliers": {
+    "read": 0.1,
+    "write_5m": 1.25,
+    "write_1h": 2.0,
+    "_comment": "Multipliers applied to the model's INPUT price. A cache read costs a tenth of an ordinary input token; a 5-minute cache write costs 1.25x; a 1-hour cache write costs 2x. Treating cache tokens as ordinary input tokens overstates reads by 10x and understates 1-hour writes by 40%."
+  },
+  "models": {
+    "claude-opus-5": {"input": 5.0, "output": 25.0},
+    "claude-opus-4-8": {"input": 5.0, "output": 25.0},
+    "claude-opus-4-7": {"input": 5.0, "output": 25.0},
+    "claude-opus-4-6": {"input": 5.0, "output": 25.0},
+    "claude-opus-4-5": {"input": 5.0, "output": 25.0},
+    "claude-fable-5": {"input": 10.0, "output": 50.0},
+    "claude-mythos-5": {"input": 10.0, "output": 50.0},
+    "claude-sonnet-5": {"input": 3.0, "output": 15.0},
+    "claude-sonnet-4-6": {"input": 3.0, "output": 15.0},
+    "claude-sonnet-4-5": {"input": 3.0, "output": 15.0},
+    "claude-sonnet-4-5-20250929": {"input": 3.0, "output": 15.0},
+    "claude-haiku-4-5": {"input": 1.0, "output": 5.0},
+    "claude-haiku-4-5-20251001": {"input": 1.0, "output": 5.0},
+    "<synthetic>": {"input": 0.0, "output": 0.0}
+  },
+  "local": {
+    "gpu_dollars_per_hour": 0.0,
+    "_comment": "Cost per GPU-second for locally hosted models. Zero by default because a GPU you already own has no marginal per-second price. Set it to an amortised rate (card price divided by expected lifetime hours, plus electricity) if you want local stages to carry a dollar figure."
+  }
+}

@@ -1,0 +1,632 @@
+{
+  "label": "the sessions that built this repository",
+  "generated_by": "cost-accountant",
+  "pricing": {
+    "file": "pricing.json",
+    "source": "Anthropic published API pricing, as documented in the claude-api reference bundled with Claude Code (skill version cached 2026-06-24). Cache multipliers from the prompt-caching documentation in the same bundle.",
+    "retrieved": "2026-08-03",
+    "cache_multipliers": {
+      "read": 0.1,
+      "write_5m": 1.25,
+      "write_1h": 2.0
+    }
+  },
+  "totals": {
+    "stages": 68,
+    "stages_with_artifacts": 29,
+    "artifacts": 20,
+    "usd_total": 19.1003,
+    "usd_direct": 8.823159,
+    "usd_overhead": 10.277141,
+    "usd_unattributable_overhead": 0.0,
+    "unpriced_tokens": 0,
+    "unpriced_models": [],
+    "tokens": {
+      "input": 128,
+      "output": 103952,
+      "cache_read": 26625407,
+      "cache_write_5m": 510105,
+      "cache_write_1h": 0,
+      "all": 27239592
+    },
+    "by_model": {
+      "claude-opus-5": {
+        "requests": 68,
+        "tokens": {
+          "input": 128,
+          "output": 103952,
+          "cache_read": 26625407,
+          "cache_write_5m": 510105,
+          "cache_write_1h": 0
+        },
+        "usd": 19.1003,
+        "priced": true,
+        "usd_if_cache_tiers_ignored": 138.277
+      }
+    }
+  },
+  "by_medium": {
+    "code": {
+      "artifacts": 18,
+      "stages": 27,
+      "usd_direct": 8.241632,
+      "usd_amortised": 17.841415,
+      "tokens": 12334079,
+      "wall_seconds": 836.987,
+      "usd_per_artifact": 0.99119
+    },
+    "data": {
+      "artifacts": 1,
+      "stages": 1,
+      "usd_direct": 0.227514,
+      "usd_amortised": 0.492519,
+      "tokens": 401367,
+      "wall_seconds": 15.351,
+      "usd_per_artifact": 0.492519
+    },
+    "text": {
+      "artifacts": 1,
+      "stages": 1,
+      "usd_direct": 0.354014,
+      "usd_amortised": 0.766365,
+      "tokens": 518158,
+      "wall_seconds": 48.14,
+      "usd_per_artifact": 0.766365
+    }
+  },
+  "receipts": [
+    {
+      "artifact": "accountant/ledger.py",
+      "medium": "code",
+      "stages": 4,
+      "tokens": {
+        "input": 7,
+        "output": 5512,
+        "cache_read": 1847766,
+        "cache_write_5m": 7982,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 1.111606,
+      "usd_amortised": 2.406394,
+      "unpriced_tokens": 0,
+      "wall_seconds": 64.506,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:13:01.361Z",
+      "last_touch": "2026-08-03T20:32:52.682Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "scripts/build_docs.py",
+      "medium": "code",
+      "stages": 3,
+      "tokens": {
+        "input": 6,
+        "output": 7520,
+        "cache_read": 1463853,
+        "cache_write_5m": 2024,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.932607,
+      "usd_amortised": 2.018899,
+      "unpriced_tokens": 0,
+      "wall_seconds": 93.203,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:26:32.072Z",
+      "last_touch": "2026-08-03T20:33:19.581Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/extract.py",
+      "medium": "code",
+      "stages": 3,
+      "tokens": {
+        "input": 6,
+        "output": 5665,
+        "cache_read": 1417874,
+        "cache_write_5m": 4285,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.877373,
+      "usd_amortised": 1.89933,
+      "unpriced_tokens": 0,
+      "wall_seconds": 67.31,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:11:33.828Z",
+      "last_touch": "2026-08-03T20:34:35.660Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/cli.py",
+      "medium": "code",
+      "stages": 2,
+      "tokens": {
+        "input": 4,
+        "output": 4787,
+        "cache_read": 939859,
+        "cache_write_5m": 2280,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.603875,
+      "usd_amortised": 1.307262,
+      "unpriced_tokens": 0,
+      "wall_seconds": 58.196,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:14:32.764Z",
+      "last_touch": "2026-08-03T20:36:29.877Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "tests/test_recorder.py",
+      "medium": "code",
+      "stages": 2,
+      "tokens": {
+        "input": 4,
+        "output": 2533,
+        "cache_read": 914900,
+        "cache_write_5m": 2962,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.539308,
+      "usd_amortised": 1.167488,
+      "unpriced_tokens": 0,
+      "wall_seconds": 32.666,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:23:44.224Z",
+      "last_touch": "2026-08-03T20:29:33.948Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "scripts/verify.sh",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 9045,
+        "cache_read": 477465,
+        "cache_write_5m": 696,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.469218,
+      "usd_amortised": 1.015758,
+      "unpriced_tokens": 0,
+      "wall_seconds": 89.001,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:29:34.144Z",
+      "last_touch": "2026-08-03T20:31:03.145Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "scripts/check_independent.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 8116,
+        "cache_read": 444656,
+        "cache_write_5m": 2810,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.442801,
+      "usd_amortised": 0.958571,
+      "unpriced_tokens": 0,
+      "wall_seconds": 91.302,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:24:25.961Z",
+      "last_touch": "2026-08-03T20:25:57.263Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "scripts/probe.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 4707,
+        "cache_read": 470832,
+        "cache_write_5m": 1168,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.360401,
+      "usd_amortised": 0.780193,
+      "unpriced_tokens": 0,
+      "wall_seconds": 52.488,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:28:26.282Z",
+      "last_touch": "2026-08-03T20:29:18.770Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "README.md",
+      "medium": "text",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 3729,
+        "cache_read": 513807,
+        "cache_write_5m": 620,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.354014,
+      "usd_amortised": 0.766365,
+      "unpriced_tokens": 0,
+      "wall_seconds": 48.14,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:34:55.090Z",
+      "last_touch": "2026-08-03T20:35:43.230Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "tests/test_extract.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 4482,
+        "cache_read": 429075,
+        "cache_write_5m": 1336,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.334948,
+      "usd_amortised": 0.725091,
+      "unpriced_tokens": 0,
+      "wall_seconds": 48.462,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:22:04.617Z",
+      "last_touch": "2026-08-03T20:22:53.079Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "tests/test_attribute.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 3111,
+        "cache_read": 430411,
+        "cache_write_5m": 4545,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.321397,
+      "usd_amortised": 0.695757,
+      "unpriced_tokens": 0,
+      "wall_seconds": 26.809,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:22:53.332Z",
+      "last_touch": "2026-08-03T20:23:20.141Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/attribute.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 3748,
+        "cache_read": 404130,
+        "cache_write_5m": 4050,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.321088,
+      "usd_amortised": 0.695087,
+      "unpriced_tokens": 0,
+      "wall_seconds": 38.778,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:12:22.140Z",
+      "last_touch": "2026-08-03T20:13:00.918Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "scripts/demo_pipeline.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 1,
+        "output": 2270,
+        "cache_read": 468090,
+        "cache_write_5m": 406,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.293338,
+      "usd_amortised": 0.635015,
+      "unpriced_tokens": 0,
+      "wall_seconds": 27.883,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:27:51.130Z",
+      "last_touch": "2026-08-03T20:28:19.013Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "tests/test_ledger.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 2202,
+        "cache_read": 434956,
+        "cache_write_5m": 3175,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.292382,
+      "usd_amortised": 0.632946,
+      "unpriced_tokens": 0,
+      "wall_seconds": 23.678,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:23:20.342Z",
+      "last_touch": "2026-08-03T20:23:44.020Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "tests/test_pricing.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 2867,
+        "cache_read": 424158,
+        "cache_write_5m": 374,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.286102,
+      "usd_amortised": 0.61935,
+      "unpriced_tokens": 0,
+      "wall_seconds": 36.299,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:21:06.291Z",
+      "last_touch": "2026-08-03T20:21:42.590Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/gpu.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 2315,
+        "cache_read": 411991,
+        "cache_write_5m": 3338,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.284743,
+      "usd_amortised": 0.616409,
+      "unpriced_tokens": 0,
+      "wall_seconds": 27.535,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:13:35.744Z",
+      "last_touch": "2026-08-03T20:14:03.279Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/recorder.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 2052,
+        "cache_read": 415329,
+        "cache_write_5m": 2378,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.273837,
+      "usd_amortised": 0.5928,
+      "unpriced_tokens": 0,
+      "wall_seconds": 19.136,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:14:03.615Z",
+      "last_touch": "2026-08-03T20:14:22.751Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/pricing.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 2643,
+        "cache_read": 400305,
+        "cache_write_5m": 1119,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.273231,
+      "usd_amortised": 0.591489,
+      "unpriced_tokens": 0,
+      "wall_seconds": 30.328,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:11:03.317Z",
+      "last_touch": "2026-08-03T20:11:33.645Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "pricing.json",
+      "medium": "data",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 1060,
+        "cache_read": 400157,
+        "cache_write_5m": 148,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.227514,
+      "usd_amortised": 0.492519,
+      "unpriced_tokens": 0,
+      "wall_seconds": 15.351,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:10:47.777Z",
+      "last_touch": "2026-08-03T20:11:03.128Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    },
+    {
+      "artifact": "accountant/__init__.py",
+      "medium": "code",
+      "stages": 1,
+      "tokens": {
+        "input": 2,
+        "output": 52,
+        "cache_read": 417707,
+        "cache_write_5m": 2115,
+        "cache_write_1h": 0
+      },
+      "usd_direct": 0.223382,
+      "usd_amortised": 0.483576,
+      "unpriced_tokens": 0,
+      "wall_seconds": 9.407,
+      "gpu_seconds": null,
+      "gpu_note": null,
+      "first_touch": "2026-08-03T20:14:23.040Z",
+      "last_touch": "2026-08-03T20:14:32.447Z",
+      "models": [
+        "claude-opus-5"
+      ],
+      "sessions": [
+        "45c9777456"
+      ]
+    }
+  ],
+  "reconciliation": [
+    {
+      "name": "price-then-sum equals sum-then-price",
+      "ok": true,
+      "detail": "$19.10 vs $19.10 (difference 0.000000)"
+    },
+    {
+      "name": "unpriced token counts agree between both derivations",
+      "ok": true,
+      "detail": "0 vs 0 tokens"
+    },
+    {
+      "name": "the attribution was built from these stages",
+      "ok": true,
+      "detail": "stages price to $19.10, attribution reports $19.10 (difference 0.000000)"
+    },
+    {
+      "name": "attributed plus unattributable equals total",
+      "ok": true,
+      "detail": "$19.10 + $0.00 = $19.10 vs total $19.10 (difference 0.000000)"
+    },
+    {
+      "name": "direct attribution plus overhead equals total",
+      "ok": true,
+      "detail": "$8.82 + $10.28 vs $19.10 (difference 0.000000)"
+    },
+    {
+      "name": "the ledger is not empty",
+      "ok": true,
+      "detail": "68 stages, $19.10"
+    }
+  ],
+  "reconciled": true
+}

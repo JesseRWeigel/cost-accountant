@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cost-accountant: what each artifact actually cost</title>
+<meta name="description" content="18,280 API requests, 4.61 billion tokens, $6,110.01. Priced by token class, reconciled two independent ways, and honest about the part that cannot be attributed to any artifact.">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #fbfaf7; --fg: #1b1a17; --muted: #5f5b52; --rule: #d8d3c7;
+  --card: #ffffff; --accent: #8a4b2a; --accent-soft: #e8d9cf; --ok: #2f6b3f; --bad: #9b2c2c;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14130f; --fg: #eae6dc; --muted: #a09a8c; --rule: #33302a;
+          --card: #1c1b16; --accent: #e0955f; --accent-soft: #3a2b22; --ok: #7dc48f; --bad: #e08585; }
+}
+:root[data-theme="dark"] {
+  --bg: #14130f; --fg: #eae6dc; --muted: #a09a8c; --rule: #33302a;
+  --card: #1c1b16; --accent: #e0955f; --accent-soft: #3a2b22; --ok: #7dc48f; --bad: #e08585;
+}
+:root[data-theme="light"] {
+  --bg: #fbfaf7; --fg: #1b1a17; --muted: #5f5b52; --rule: #d8d3c7;
+  --card: #ffffff; --accent: #8a4b2a; --accent-soft: #e8d9cf; --ok: #2f6b3f; --bad: #9b2c2c;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.6 ui-serif, Georgia, "Iowan Old Style", serif; }
+main { max-width: 60rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.15; margin: 0 0 .4rem; letter-spacing: -.02em; }
+h2 { font-size: 1.35rem; margin: 3rem 0 .75rem; letter-spacing: -.01em; }
+h3 { font-size: 1rem; margin: 1.75rem 0 .5rem; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--muted); font-weight: 600; }
+p { margin: 0 0 1rem; max-width: 42rem; }
+.lede { font-size: 1.1rem; color: var(--muted); max-width: 40rem; }
+a { color: var(--accent); }
+code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .88em; }
+.tiles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); margin: 2rem 0; }
+.tile { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: .9rem 1rem; }
+.tile .n { display: block; font-size: clamp(1.3rem, 4vw, 1.9rem); font-weight: 600;
+  letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tile .k { display: block; font-size: .78rem; color: var(--muted); text-transform: uppercase;
+  letter-spacing: .06em; margin-top: .15rem; }
+.scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+th, td { padding: .5rem .75rem; text-align: left; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+tbody tr:last-child td { border-bottom: 0; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; font-family: ui-monospace, Menlo, monospace; font-size: .86rem; }
+.barcell { min-width: 8rem; }
+.bar { display: block; height: .55rem; border-radius: 3px; background: var(--accent); }
+.bar-track { display: block; height: .55rem; border-radius: 3px; background: var(--accent-soft); }
+.note { border-left: 3px solid var(--accent); padding: .1rem 0 .1rem 1rem; margin: 1.5rem 0;
+  color: var(--muted); }
+ul.checks { list-style: none; padding: 0; margin: 1rem 0; }
+ul.checks li { padding: .35rem 0; border-bottom: 1px solid var(--rule); font-size: .92rem; }
+ul.checks li:last-child { border-bottom: 0; }
+.ok { color: var(--ok); font-weight: 600; }
+.bad { color: var(--bad); font-weight: 600; }
+footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+  color: var(--muted); font-size: .88rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>cost-accountant</h1>
+<p class="lede">18,280 API requests, 4.61 billion tokens, $6,110.01. Priced by token class, reconciled two independent ways, and honest about the part that cannot be attributed to any artifact.</p>
+<p>A per-artifact cost and latency accountant for AI pipelines. It reads real usage out of
+Claude Code transcripts, prices each token class at its own rate, attributes the spend to
+the files that were produced, and emits a receipt per artifact.
+<a href="https://github.com/JesseRWeigel/cost-accountant">Source on GitHub</a>.</p>
+
+<h2>Three things the numbers say</h2>
+<p><strong>94.9% of the tokens are cache reads.</strong> Adding
+<code>input_tokens</code>, <code>cache_read_input_tokens</code> and
+<code>cache_creation_input_tokens</code> into one figure and multiplying by the input
+rate gives <strong>$27,443.79</strong> for this corpus, 4.5 times the real
+$6,110.01. That is not a rounding difference; it is the whole answer. Both
+numbers are in <code>data/ledger.corpus.json</code>, per model, so this comparison can be
+checked rather than taken on trust.</p>
+<p><strong>A streamed turn writes its usage on every line.</strong> The corpus has
+18,280 distinct API requests spread across more usage-bearing lines than that,
+each repeating the full usage object. Summing over lines roughly doubles the bill. The
+extractor deduplicates by <code>requestId</code>.</p>
+<p><strong>Only 8.2% of the money lands on a file.</strong>
+2,569 of 18,280 requests wrote or edited anything; the
+rest read, searched, ran commands and thought. That overhead is real and it is most of the
+bill, so the per-artifact figures on this page show it amortised across the artifacts of
+the same session, with the amount that has nowhere to go reported separately rather than
+quietly dropped.</p>
+
+
+<h2>A real corpus</h2>
+<p>Every number below comes from real Claude Code transcripts on one workstation: actual token counts from <code>message.usage</code>, actual timestamps. The transcripts themselves are not published. Artifact names are replaced by a hash of the path plus its extension, so the shape of the spend survives and the private project names do not.</p>
+<div class="tiles"><div class="tile"><span class="n">$6,110.01</span><span class="k">total billed</span></div><div class="tile"><span class="n">18,280</span><span class="k">API requests</span></div><div class="tile"><span class="n">1,162</span><span class="k">artifacts</span></div><div class="tile"><span class="n">4.61B</span><span class="k">tokens</span></div><div class="tile"><span class="n">95%</span><span class="k">were cache reads</span></div><div class="tile"><span class="n">$5.26</span><span class="k">per artifact</span></div></div>
+
+<h3>Where the tokens went</h3>
+<div class="scroll"><table><thead><tr><th>token class</th><th>count</th><th>share</th><th>priced at</th></tr></thead><tbody><tr><td>input</td><td class="num">552,154</td><td class="num">0.01%</td><td>1.00x input</td></tr><tr><td>output</td><td class="num">15,648,554</td><td class="num">0.34%</td><td>output rate</td></tr><tr><td>cache read</td><td class="num">4,371,726,469</td><td class="num">94.86%</td><td>0.1x input</td></tr><tr><td>cache write 5m</td><td class="num">27,731,076</td><td class="num">0.60%</td><td>1.25x input</td></tr><tr><td>cache write 1h</td><td class="num">192,730,970</td><td class="num">4.18%</td><td>2.0x input</td></tr></tbody></table></div>
+<h3>Cost per published piece, by medium</h3>
+<div class="scroll"><table><thead><tr><th>medium</th><th>pieces</th><th>total</th><th>per piece</th><th>minutes</th><th>share of spend</th></tr></thead><tbody><tr><td>code</td><td class="num">928</td><td class="num">$4,078.57</td><td class="num">$4.40</td><td class="num">888</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:100.0%"></span></span></td></tr><tr><td>text</td><td class="num">137</td><td class="num">$1,624.30</td><td class="num">$11.86</td><td class="num">215</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:39.8%"></span></span></td></tr><tr><td>page</td><td class="num">20</td><td class="num">$67.61</td><td class="num">$3.38</td><td class="num">71</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:1.7%"></span></span></td></tr><tr><td>data</td><td class="num">52</td><td class="num">$28.17</td><td class="num">$0.54</td><td class="num">24</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:0.7%"></span></span></td></tr><tr><td>other</td><td class="num">25</td><td class="num">$24.23</td><td class="num">$0.97</td><td class="num">16</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:0.6%"></span></span></td></tr></tbody></table></div>
+<h3>The most expensive artifacts</h3>
+<div class="scroll"><table><thead><tr><th>artifact</th><th>medium</th><th>requests</th><th>output tokens</th><th>minutes</th><th>direct</th><th>with overhead</th></tr></thead><tbody><tr><td class="mono">code/b05f920a8c.ts</td><td>code</td><td class="num">77</td><td class="num">91,497</td><td class="num">22.8</td><td class="num">$27.17</td><td class="num">$1,132.64</td></tr><tr><td class="mono">text/f2429ca8ca.md</td><td>text</td><td class="num">53</td><td class="num">42,065</td><td class="num">14.6</td><td class="num">$25.74</td><td class="num">$492.08</td></tr><tr><td class="mono">code/e5970139b3.ts</td><td>code</td><td class="num">33</td><td class="num">31,679</td><td class="num">8.8</td><td class="num">$13.54</td><td class="num">$414.74</td></tr><tr><td class="mono">text/0d800f31de.md</td><td>text</td><td class="num">12</td><td class="num">8,062</td><td class="num">2.1</td><td class="num">$4.11</td><td class="num">$299.71</td></tr><tr><td class="mono">code/f503f27496.ts</td><td>code</td><td class="num">66</td><td class="num">82,666</td><td class="num">19.5</td><td class="num">$15.24</td><td class="num">$214.28</td></tr><tr><td class="mono">code/cd080eb7b9.ts</td><td>code</td><td class="num">24</td><td class="num">20,785</td><td class="num">6.3</td><td class="num">$8.15</td><td class="num">$155.89</td></tr><tr><td class="mono">text/c08941563e.md</td><td>text</td><td class="num">2</td><td class="num">2,974</td><td class="num">1.0</td><td class="num">$1.42</td><td class="num">$120.20</td></tr><tr><td class="mono">code/aa3b72a7a0.ts</td><td>code</td><td class="num">10</td><td class="num">7,093</td><td class="num">2.2</td><td class="num">$3.00</td><td class="num">$114.69</td></tr><tr><td class="mono">code/65b16ff168.ts</td><td>code</td><td class="num">14</td><td class="num">18,103</td><td class="num">4.4</td><td class="num">$5.44</td><td class="num">$104.08</td></tr><tr><td class="mono">code/2e4b90fee2.py</td><td>code</td><td class="num">2</td><td class="num">3,006</td><td class="num">0.7</td><td class="num">$0.85</td><td class="num">$71.86</td></tr><tr><td class="mono">code/9d84d197f6.ts</td><td>code</td><td class="num">15</td><td class="num">16,193</td><td class="num">4.2</td><td class="num">$4.37</td><td class="num">$67.75</td></tr><tr><td class="mono">text/843182c572.md</td><td>text</td><td class="num">2</td><td class="num">1,354</td><td class="num">0.3</td><td class="num">$0.73</td><td class="num">$61.88</td></tr><tr><td class="mono">code/94a385bfe4.ts</td><td>code</td><td class="num">7</td><td class="num">6,230</td><td class="num">1.7</td><td class="num">$3.23</td><td class="num">$61.71</td></tr><tr><td class="mono">text/1b22f5c4db.md</td><td>text</td><td class="num">2</td><td class="num">2,906</td><td class="num">0.7</td><td class="num">$0.72</td><td class="num">$60.51</td></tr><tr><td class="mono">code/8316df4f69.ts</td><td>code</td><td class="num">8</td><td class="num">6,538</td><td class="num">2.1</td><td class="num">$3.03</td><td class="num">$57.98</td></tr></tbody></table></div>
+<h3>Reconciliation</h3>
+<ul class="checks"><li><span class="ok">PASS</span> &nbsp;price-then-sum equals sum-then-price &nbsp;<span style="color:var(--muted)">$6,110.01 vs $6,110.01 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;unpriced token counts agree between both derivations &nbsp;<span style="color:var(--muted)">0 vs 0 tokens</span></li><li><span class="ok">PASS</span> &nbsp;the attribution was built from these stages &nbsp;<span style="color:var(--muted)">stages price to $6,110.01, attribution reports $6,110.01 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;attributed plus unattributable equals total &nbsp;<span style="color:var(--muted)">$5,822.87 + $287.14 = $6,110.01 vs total $6,110.01 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;direct attribution plus overhead equals total &nbsp;<span style="color:var(--muted)">$504.01 + $5,606.00 vs $6,110.01 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;the ledger is not empty &nbsp;<span style="color:var(--muted)">18,280 stages, $6,110.01</span></li></ul>
+
+<h2>What this repository cost to build</h2>
+<p>The same extractor, pointed at this project's own directory. These paths are not redacted because the repository is public, so the receipts name real files. This is the accountant billing itself.</p>
+<div class="tiles"><div class="tile"><span class="n">$19.10</span><span class="k">total billed</span></div><div class="tile"><span class="n">68</span><span class="k">API requests</span></div><div class="tile"><span class="n">20</span><span class="k">artifacts</span></div><div class="tile"><span class="n">0.03B</span><span class="k">tokens</span></div><div class="tile"><span class="n">98%</span><span class="k">were cache reads</span></div><div class="tile"><span class="n">$0.96</span><span class="k">per artifact</span></div></div>
+
+<h3>Where the tokens went</h3>
+<div class="scroll"><table><thead><tr><th>token class</th><th>count</th><th>share</th><th>priced at</th></tr></thead><tbody><tr><td>input</td><td class="num">128</td><td class="num">0.00%</td><td>1.00x input</td></tr><tr><td>output</td><td class="num">103,952</td><td class="num">0.38%</td><td>output rate</td></tr><tr><td>cache read</td><td class="num">26,625,407</td><td class="num">97.75%</td><td>0.1x input</td></tr><tr><td>cache write 5m</td><td class="num">510,105</td><td class="num">1.87%</td><td>1.25x input</td></tr><tr><td>cache write 1h</td><td class="num">0</td><td class="num">0.00%</td><td>2.0x input</td></tr></tbody></table></div>
+<h3>Cost per published piece, by medium</h3>
+<div class="scroll"><table><thead><tr><th>medium</th><th>pieces</th><th>total</th><th>per piece</th><th>minutes</th><th>share of spend</th></tr></thead><tbody><tr><td>code</td><td class="num">18</td><td class="num">$17.84</td><td class="num">$0.99</td><td class="num">14</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:100.0%"></span></span></td></tr><tr><td>text</td><td class="num">1</td><td class="num">$0.77</td><td class="num">$0.77</td><td class="num">1</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:4.3%"></span></span></td></tr><tr><td>data</td><td class="num">1</td><td class="num">$0.49</td><td class="num">$0.49</td><td class="num">0</td><td class="barcell"><span class="bar-track"><span class="bar" style="width:2.8%"></span></span></td></tr></tbody></table></div>
+<h3>The most expensive artifacts</h3>
+<div class="scroll"><table><thead><tr><th>artifact</th><th>medium</th><th>requests</th><th>output tokens</th><th>minutes</th><th>direct</th><th>with overhead</th></tr></thead><tbody><tr><td class="mono">accountant/ledger.py</td><td>code</td><td class="num">4</td><td class="num">5,512</td><td class="num">1.1</td><td class="num">$1.11</td><td class="num">$2.41</td></tr><tr><td class="mono">scripts/build_docs.py</td><td>code</td><td class="num">3</td><td class="num">7,520</td><td class="num">1.6</td><td class="num">$0.93</td><td class="num">$2.02</td></tr><tr><td class="mono">accountant/extract.py</td><td>code</td><td class="num">3</td><td class="num">5,665</td><td class="num">1.1</td><td class="num">$0.88</td><td class="num">$1.90</td></tr><tr><td class="mono">accountant/cli.py</td><td>code</td><td class="num">2</td><td class="num">4,787</td><td class="num">1.0</td><td class="num">$0.60</td><td class="num">$1.31</td></tr><tr><td class="mono">tests/test_recorder.py</td><td>code</td><td class="num">2</td><td class="num">2,533</td><td class="num">0.5</td><td class="num">$0.54</td><td class="num">$1.17</td></tr><tr><td class="mono">scripts/verify.sh</td><td>code</td><td class="num">1</td><td class="num">9,045</td><td class="num">1.5</td><td class="num">$0.47</td><td class="num">$1.02</td></tr><tr><td class="mono">scripts/check_independent.py</td><td>code</td><td class="num">1</td><td class="num">8,116</td><td class="num">1.5</td><td class="num">$0.44</td><td class="num">$0.96</td></tr><tr><td class="mono">scripts/probe.py</td><td>code</td><td class="num">1</td><td class="num">4,707</td><td class="num">0.9</td><td class="num">$0.36</td><td class="num">$0.78</td></tr><tr><td class="mono">README.md</td><td>text</td><td class="num">1</td><td class="num">3,729</td><td class="num">0.8</td><td class="num">$0.35</td><td class="num">$0.77</td></tr><tr><td class="mono">tests/test_extract.py</td><td>code</td><td class="num">1</td><td class="num">4,482</td><td class="num">0.8</td><td class="num">$0.33</td><td class="num">$0.73</td></tr><tr><td class="mono">tests/test_attribute.py</td><td>code</td><td class="num">1</td><td class="num">3,111</td><td class="num">0.4</td><td class="num">$0.32</td><td class="num">$0.70</td></tr><tr><td class="mono">accountant/attribute.py</td><td>code</td><td class="num">1</td><td class="num">3,748</td><td class="num">0.6</td><td class="num">$0.32</td><td class="num">$0.70</td></tr><tr><td class="mono">scripts/demo_pipeline.py</td><td>code</td><td class="num">1</td><td class="num">2,270</td><td class="num">0.5</td><td class="num">$0.29</td><td class="num">$0.64</td></tr><tr><td class="mono">tests/test_ledger.py</td><td>code</td><td class="num">1</td><td class="num">2,202</td><td class="num">0.4</td><td class="num">$0.29</td><td class="num">$0.63</td></tr><tr><td class="mono">tests/test_pricing.py</td><td>code</td><td class="num">1</td><td class="num">2,867</td><td class="num">0.6</td><td class="num">$0.29</td><td class="num">$0.62</td></tr></tbody></table></div>
+<h3>Reconciliation</h3>
+<ul class="checks"><li><span class="ok">PASS</span> &nbsp;price-then-sum equals sum-then-price &nbsp;<span style="color:var(--muted)">$19.10 vs $19.10 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;unpriced token counts agree between both derivations &nbsp;<span style="color:var(--muted)">0 vs 0 tokens</span></li><li><span class="ok">PASS</span> &nbsp;the attribution was built from these stages &nbsp;<span style="color:var(--muted)">stages price to $19.10, attribution reports $19.10 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;attributed plus unattributable equals total &nbsp;<span style="color:var(--muted)">$19.10 + $0.00 = $19.10 vs total $19.10 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;direct attribution plus overhead equals total &nbsp;<span style="color:var(--muted)">$8.82 + $10.28 vs $19.10 (difference 0.000000)</span></li><li><span class="ok">PASS</span> &nbsp;the ledger is not empty &nbsp;<span style="color:var(--muted)">68 stages, $19.10</span></li></ul>
+
+<h2>Where the prices come from</h2>
+<p>Anthropic published API pricing, as documented in the claude-api reference bundled with Claude Code (skill version cached 2026-06-24). Cache multipliers from the prompt-caching documentation in the same bundle. Retrieved 2026-08-03.
+They live in <code>pricing.json</code> and are meant to be edited: list prices are not what
+every account pays, batch requests are half price, and partner platforms are billed
+separately. Cache multipliers used here: read
+&times;0.1, five-minute write
+&times;1.25, one-hour write
+&times;2.0.</p>
+<p class="note">A dollar figure here is an estimate of list-price spend, not an invoice.
+It cannot see negotiated rates, batch discounts, or anything billed outside the API.</p>
+<footer>Generated by <code>scripts/build_docs.py</code> from
+<code>data/ledger.corpus.json</code>. No number on this page was typed by hand.
+Task MEDIA-047 from <a href="https://github.com/JesseRWeigel/722-things-to-build">722
+things to build</a>. MIT.</footer>
+</main>
+</body>
+</html>
