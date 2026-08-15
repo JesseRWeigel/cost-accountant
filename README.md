@@ -5,6 +5,10 @@ of Claude Code transcripts, prices every token class at its own rate, attributes
 to the files that were actually produced, and emits a receipt per artifact plus a rolling
 breakdown of cost per published piece by medium.
 
+> Measurements described here were taken on one development machine: an RTX 5090 with
+> 32 GB of VRAM, 12 cores, 48 GB of RAM, running Linux under WSL2. Numbers from your own
+> hardware will differ.
+
 **[Live page, every number generated from the ledger](https://jesserweigel.github.io/cost-accountant/)**
 
 The problem it solves is narrow and specific. A modern agent turn spends almost all of its
@@ -24,7 +28,7 @@ the corpus below that mistake produces **$27,443.79** against a real **$6,110.01
 ## Using it
 
 ```bash
-# account for everything Claude Code has already spent on this machine
+# account for everything Claude Code has already spent on the development machine
 python3 -m accountant.cli extract --out ledger.json
 python3 -m accountant.cli report ledger.json
 
