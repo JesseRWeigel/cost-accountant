@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "unit": "USD per 1,000,000 tokens",
+  "source": "Anthropic Claude Model Pricing: List Prices by Platform, effective 2026-11-09, page 1, Claude API Standard Global rows: https://assets.claude.com/a04aca860a54b7323e33f449706e9b43680e1346.pdf",
+  "retrieved": "2026-11-19",
+  "note": "Opt-in rate card for Sonnet 5.5 and Opus 5.5 only. These are standard global first-party API list-price estimates, not subscription bills or batch, fast, US-only, third-party, promotional or negotiated rates.",
+  "cache_multipliers": {
+    "read": 0.05,
+    "write_5m": 1.25,
+    "write_1h": 2.0
+  },
+  "models": {
+    "claude-sonnet-5-5": {"input": 2.0, "output": 10.0},
+    "claude-opus-5-5": {"input": 4.0, "output": 20.0}
+  }
+}

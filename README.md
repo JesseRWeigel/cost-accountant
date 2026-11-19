@@ -129,11 +129,31 @@ could fail found it. There is now a third check tying the halves together.
 
 ## Prices are configuration, not constants
 
-`pricing.json` holds the rates, the cache multipliers, and a note about where they came
-from. They are Anthropic list prices for the first-party API, taken from the `claude-api`
-reference bundled with Claude Code, retrieved 2026-08-03. They are **not** what every
-account pays: Bedrock and Vertex are priced separately, the Batches API is half price,
-Sonnet 5 has an introductory rate, and negotiated rates exist. Edit the file.
+`pricing.json` is the unchanged default rate card used for the historical corpus.
+It records first-party Claude API list prices and cache multipliers as retrieved on
+2026-08-03. Leave it in place to reproduce the published estimates.
+
+To estimate costs for Claude Sonnet 5.5 or Opus 5.5, select the separate profile:
+
+```sh
+python3 -m accountant.cli --pricing pricing.claude-api-2026-11-09.json \
+  extract --stages-from run.jsonl --out ledger.json
+```
+
+The profile covers the Standard Global Claude API list prices in
+[Anthropic's November 9, 2026 rate card](https://assets.claude.com/a04aca860a54b7323e33f449706e9b43680e1346.pdf).
+In USD per million tokens:
+
+| Model | Fresh input | Output | Cache hit | 5-minute write | 1-hour write |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Sonnet 5.5 | $2.00 | $10.00 | $0.10 | $2.50 | $4.00 |
+| Opus 5.5 | $4.00 | $20.00 | $0.20 | $5.00 | $8.00 |
+
+Both bill a cache hit at 5% of fresh input, rather than the historical card's 10%.
+The opt-in profile replaces the default card; it does not guess rates for other
+models or combine the two cards. Batch, fast mode, US-only inference, third-party
+providers and account-specific rates can differ. A list-price estimate is not
+a bill or a measurement of a Claude subscription's cost.
 
 A model with no entry is never billed as free. The `Cost` object carries a `priced` flag
 and the token count it could not price, every report prints the unpriced total separately,
@@ -215,7 +235,8 @@ accountant/ledger.py      serialisation and the reconciliation checks
 accountant/recorder.py    live instrumentation for your own pipeline stages
 accountant/gpu.py         GPU sampling that reports what it could not measure
 accountant/cli.py         extract / report / receipt / gpu
-pricing.json              the rates, meant to be edited
+pricing.json              default historical rate card
+pricing.claude-api-2026-11-09.json  opt-in Sonnet/Opus 5.5 rate card
 data/ledger.corpus.json   the published corpus ledger, artifact paths redacted
 data/ledger.self.json     this repository accounting for its own construction
 scripts/verify.sh         everything above, gated
@@ -226,6 +247,14 @@ scripts/demo_pipeline.py  a small instrumented pipeline, three media, real wall 
 ```
 
 ## Status
+
+Current offline unit suite (synthetic fixtures):
+
+```text
+  ok    71 unit tests passed
+```
+
+Historical full verification (before the optional November rate card):
 
 ```
 $ bash scripts/verify.sh
