@@ -57,6 +57,19 @@ class TestDirectAttributionAndOverhead(unittest.TestCase):
         self.assertAlmostEqual(self.by["/p/a.py"].usd_direct, 75.0)
         self.assertAlmostEqual(self.by["/p/b.md"].usd_direct, 25.0)
 
+    def test_multi_artifact_integer_tokens_reconcile_in_stable_path_order(self):
+        for keys in (["/p/b.md", "/p/a.py", "/p/c.py", "/p/b.md"],
+                     ["/p/c.py", "/p/b.md", "/p/a.py"]):
+            fixture = stage("tokens", 7, keys, model="unknown")
+            fixture.tokens["input"] = 2
+            att = attribute([fixture], PRICING, redact=False)
+            by = {r.artifact: r for r in att.receipts}
+            self.assertEqual([by[p].tokens["output"] for p in sorted(by)], [3, 2, 2])
+            self.assertEqual([by[p].tokens["input"] for p in sorted(by)], [1, 1, 0])
+            self.assertEqual(sum(r.total_tokens() for r in att.receipts), 9)
+            self.assertEqual(sum(r.unpriced_tokens for r in att.receipts), att.unpriced_tokens)
+            self.assertTrue(all(r.unpriced_tokens == r.total_tokens() for r in att.receipts))
+
     def test_a_stage_that_wrote_nothing_becomes_overhead(self):
         self.assertAlmostEqual(self.att.overhead_usd, 100.0)
         self.assertAlmostEqual(self.att.attributed_direct_usd, 100.0)

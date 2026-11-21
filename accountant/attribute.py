@@ -169,7 +169,11 @@ def attribute(stages: Iterable, pricing: Pricing, root=None, redact: bool = True
 
         n_with_artifacts += 1
         share = cost.usd / len(keys)
-        tok_share = {k: int(v or 0) // len(keys) for k, v in st.tokens.items()}
+        # Split indivisible tokens without dropping the remainder. Use the
+        # receipt key order rather than the order of tool events for ties.
+        token_parts = {cls: divmod(int(st.tokens.get(cls, 0) or 0), len(keys))
+                       for cls in TOKEN_CLASSES}
+        token_rank = {k: i for i, k in enumerate(sorted(keys))}
         wall_share = (st.latency_seconds or 0.0) / len(keys)
         for k in keys:
             r = receipts.get(k)
@@ -178,10 +182,11 @@ def attribute(stages: Iterable, pricing: Pricing, root=None, redact: bool = True
                 receipts[k] = r
             r.stages += 1
             r.usd_direct += share
-            for cls in TOKEN_CLASSES:
-                r.tokens[cls] += tok_share.get(cls, 0)
-            if not cost.priced:
-                r.unpriced_tokens += cost.unpriced_tokens // len(keys)
+            for cls, (whole, remainder) in token_parts.items():
+                tokens_here = whole + (token_rank[k] < remainder)
+                r.tokens[cls] += tokens_here
+                if not cost.priced:
+                    r.unpriced_tokens += tokens_here
             r.wall_seconds += wall_share
             if st.gpu_seconds is not None:
                 r.gpu_seconds = (r.gpu_seconds or 0.0) + st.gpu_seconds / len(keys)
